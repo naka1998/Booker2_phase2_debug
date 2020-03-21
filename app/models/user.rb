@@ -34,5 +34,19 @@ class User < ApplicationRecord
       relationship.destroy if relationship
     end
   end
-
+  def self.search(name, method)
+    return self.all if name.blank?
+    case method
+    when 1
+      self.where(name: name)
+    when 2
+      self.where("name LIKE ?", "#{name}%")
+    when 3
+      self.where("name LIKE ?", "%#{name}")
+    when 4
+      self.where("name LIKE ?", "%#{name}%")
+    else
+      self.all
+    end
+  end
 end 
